@@ -1,31 +1,52 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.themealdb.com/api/json/v1/1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchRecipesBySearch = async (search: string) => {
-  const res = await fetch(`${API_URL}/search.php?s=${search}`);
+  try {
+    const res = await fetch(`${API_URL}/search.php?s=${search}`);
+    
+    if (!res.ok) {
+      throw new Error('Error fetching recipes');
+    }
 
-  if (!res.ok) throw new Error('Error fetching recipes');
+    const data = await res.json();
 
-  const data = await res.json();
-
-  return data.meals || [];
+    return data.meals || [];
+  } catch (error) {
+    console.error('fetchRecipesBySearch error:', error);
+    throw error;
+  }
 };
 
 export const fetchRecipeDetails = async (id: string) => {
-  const res = await fetch(`${API_URL}/lookup.php?i=${id}`);
+  try {
+    const res = await fetch(`${API_URL}/lookup.php?i=${id}`);
+    
+    if (!res.ok) {
+      throw new Error('Error fetching recipe');
+    }
 
-  if (!res.ok) throw new Error('Error fetching recipe');
+    const data = await res.json();
 
-  const data = await res.json();
-
-  return data.meals?.[0] || null;
+    return data.meals?.[0] || null;
+  } catch (error) {
+    console.error('fetchRecipeDetails error:', error);
+    throw error;
+  }
 };
 
 export const fetchRecipeCategories = async () => {
-  const res = await fetch(`${API_URL}/categories.php`);
+  try {
+    const res = await fetch(`${API_URL}/categories.php`);
 
-  if (!res.ok) throw new Error('Error fetching categories');
+    if (!res.ok) {
+      throw new Error('Error fetching categories');
+    }
 
-  const data = await res.json();
+    const data = await res.json();
 
-  return data.categories.map((cat: any) => cat.strCategory);
+    return data.categories.map((cat: any) => cat.strCategory);
+  } catch (error) {
+    console.error('fetchRecipeCategories error:', error);
+    throw error;
+  }
 };
