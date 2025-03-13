@@ -16,7 +16,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
 
     return (
         <div
-            className="border rounded p-2 cursor-pointer hover:shadow-md transition-shadow"
+            className="border rounded p-2 hover:shadow-md transition-shadow"
 
         >
             <img
@@ -40,7 +40,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
                     onClick={() => {
                         toggleSelectedRecipe(recipe);
                     }}
-                    className="px-3 py-1 border rounded bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+                    className="px-3 py-1 cursor-pointer border rounded bg-orange-500 text-white hover:bg-orange-600 transition-colors"
                 >
                     {isSelected ? 'Remove from Favorites' : 'Add to Favorites'}
                 </button>
