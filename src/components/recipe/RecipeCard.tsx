@@ -1,8 +1,10 @@
 import React from 'react';
-import { Recipe } from '@/types';
-
-import { useSelectedRecipes } from '@/hooks';
+import Image from 'next/image';
 import Link from 'next/link';
+
+import { Recipe } from '@/types';
+import { useSelectedRecipes } from '@/hooks';
+
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -19,11 +21,14 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
             className="border rounded p-2 hover:shadow-md transition-shadow"
 
         >
-            <img
+            <Image
                 src={strMealThumb}
+                width={548}
+                height={548}
                 alt={strMeal}
                 className="w-full object-cover rounded mb-2"
             />
+
             <h3 className="font-semibold text-lg">{strMeal}</h3>
             <p>Category: {strCategory}</p>
             <p>Area: {strArea}</p>
@@ -35,7 +40,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
                     Details
                 </Link>
 
-              
+
                 <button
                     onClick={() => {
                         toggleSelectedRecipe(recipe);

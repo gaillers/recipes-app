@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useRecipeDetails } from "@/hooks";
 
@@ -17,7 +18,7 @@ export default function RecipeDetailsPage() {
     for (let i = 1; i <= 20; i++) {
         const ing = recipe[`strIngredient${i}` as keyof typeof recipe];
         const measure = recipe[`strMeasure${i}` as keyof typeof recipe];
-        if (!ing) break; 
+        if (!ing) break;
         ingredients.push({
             ingredient: ing.toString(),
             measure: measure?.toString() || "",
@@ -27,8 +28,11 @@ export default function RecipeDetailsPage() {
     return (
         <div className="max-w-3xl mx-auto p-4">
             <h1 className="text-3xl font-bold mb-4">{recipe.strMeal}</h1>
-            <img
+
+            <Image
                 src={recipe.strMealThumb}
+                width={736}
+                height={384}
                 alt={recipe.strMeal}
                 className="w-full max-h-96 object-cover mb-4 rounded"
             />

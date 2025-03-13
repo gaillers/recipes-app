@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Recipe } from '@/types';
 
 interface RecipeDetailsProps {
@@ -11,7 +12,7 @@ export const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe }) => {
   }
 
   const ingredients: { ingredient: string; measure: string }[] = [];
-  
+
   for (let i = 1; i <= 20; i++) {
     const ingredient = recipe[`strIngredient${i}` as keyof Recipe];
     const measure = recipe[`strMeasure${i}` as keyof Recipe];
@@ -25,11 +26,15 @@ export const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe }) => {
   return (
     <div className="p-4 border rounded">
       <h2 className="text-xl font-bold mb-2">{recipe.strMeal}</h2>
-      <img
+      
+      <Image
         src={recipe.strMealThumb}
+        width={472}
+        height={472}
         alt={recipe.strMeal}
         className="w-full max-w-md mb-4 rounded"
       />
+
       <p>
         <strong>Category:</strong> {recipe.strCategory}
       </p>
