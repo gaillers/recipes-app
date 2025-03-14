@@ -3,6 +3,11 @@ export interface Ingredient {
     measure: string;
 }
 
+export interface IngredientItem {
+    ingredient: string;
+    measure: string;
+}
+
 export interface RecipeDetailsProps {
     recipe: {
         strMeal: string;
@@ -14,4 +19,11 @@ export interface RecipeDetailsProps {
         ingredients: Ingredient[];
         [key: string]: string | null | Ingredient[];
     };
+}
+
+export interface RecipeIngredientsProps {
+    ingredients: IngredientItem[];
+}
+export interface AggregatedIngredientsProps {
+    ingredients: IngredientItem[];
 }

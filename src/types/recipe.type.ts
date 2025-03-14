@@ -9,3 +9,7 @@ export interface Recipe {
     [key: `strIngredient${number}`]: string | undefined;
     [key: `strMeasure${number}`]: string | undefined; 
 }
+
+export interface RecipeCardProps {
+    recipe: Recipe;
+}

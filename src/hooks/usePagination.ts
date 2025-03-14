@@ -1,12 +1,11 @@
-
 import { useMemo } from 'react';
-import { PaginationProps, UsePaginationResult } from '@/types';
+import { PaginationProps, PaginationUseResult } from '@/types';
 
 export const usePagination = ({
     totalPages,
     currentPage,
     onPageChange,
-}: PaginationProps): UsePaginationResult => {
+}: PaginationProps): PaginationUseResult => {
     const displayedPages = useMemo<(number | string)[]>(() => {
         const pages: (number | string)[] = [];
         if (totalPages <= 10) {
@@ -16,7 +15,7 @@ export const usePagination = ({
         } else {
 
             if (currentPage <= 7) {
-                pages.push(...Array.from({ length: 7 }, (_, i) => i + 1)); // [1..7]
+                pages.push(...Array.from({ length: 7 }, (_, i) => i + 1));
                 pages.push('...');
                 pages.push(totalPages);
             }
