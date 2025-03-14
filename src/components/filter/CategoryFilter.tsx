@@ -1,6 +1,4 @@
-import React from 'react';
 import { useRecipeCategories } from '@/hooks';
-
 import { RecipeCategory } from '@/types';
 
 export const CategoryFilterRecipe: React.FC<RecipeCategory> = ({
@@ -9,24 +7,35 @@ export const CategoryFilterRecipe: React.FC<RecipeCategory> = ({
 }) => {
   const { data: categories, isLoading, error } = useRecipeCategories();
 
-  if (isLoading) return <div>Loading categories...</div>;
+  if (isLoading)
+    return (
+      <div className="w-full animate-pulse">
+        <select
+          value=""
+          disabled
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg block w-full p-2.5"
+        >
+          <option>Loading categories...</option>
+        </select>
+      </div>
+    );
+
   if (error) return <div>Error loading categories</div>;
 
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <select
         value={selectedCategory}
         onChange={(e) => onCategoryChange(e.target.value)}
-        className="w-full p-2 border border-orange-300 rounded 
-                   focus:outline-none focus:ring-2 focus:ring-orange-400 
-                   transition-colors text-gray-900"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       >
         <option value="">All Categories</option>
-        {Array.isArray(categories) && categories?.map((category) => (
-          <option key={category.toString()} value={category.toString()}>
-            {category.toString()}
-          </option>
-        ))}
+        {Array.isArray(categories) &&
+          categories.map((category) => (
+            <option key={category.toString()} value={category.toString()}>
+              {category.toString()}
+            </option>
+          ))}
       </select>
     </div>
   );

@@ -7,9 +7,9 @@ import { navLinks } from "./navLinks";
 
 export default function NavBar() {
     return (
-        <nav className="max-w-5xl m-auto flex items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-2">
-                Logo Recipes
+        <nav className="max-w-5xl m-auto flex items-center justify-between px-4 py-4">
+            <div className="font-markRegular flex items-center gap-2">
+                Modern Recipes
             </div>
 
             <div className="flex items-center gap-6">

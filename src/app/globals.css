@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  --mark-regular: 'Mark-Regular', sans-serif;
+  --mark-medium: 'Mark-Medium', sans-serif;
+  --mark-bold: 'Mark-Bold', sans-serif;
+  
   --background: #fff;
   --foreground: #1d0f34;
 }

@@ -3,7 +3,7 @@ export interface PaginationProps {
     currentPage: number;
     onPageChange: (page: number) => void;
 }
-export interface UsePaginationResult {
+export interface PaginationUseResult {
     displayedPages: (number | string)[];
     goToPreviousPage: () => void;
     goToNextPage: () => void;

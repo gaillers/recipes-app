@@ -1,54 +1,41 @@
-import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
-import { Recipe } from '@/types';
+import { RecipeCardProps } from '@/types';
 import { useSelectedRecipes } from '@/hooks';
 
-
-interface RecipeCardProps {
-    recipe: Recipe;
-}
+import { FavoriteButton } from "@/components/ui/buttons/FavoriteButton";
+import { DetailsLink } from "@/components/ui//buttons/DetailsLink";
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     const { idMeal, strMeal, strMealThumb, strCategory, strArea } = recipe;
-
     const { selectedRecipes, toggleSelectedRecipe } = useSelectedRecipes();
     const isSelected = selectedRecipes.some((r) => r.idMeal === recipe.idMeal);
 
     return (
-        <div
-            className="border rounded p-2 hover:shadow-md transition-shadow"
-
-        >
-            <Image
-                src={strMealThumb}
-                width={548}
-                height={548}
-                alt={strMeal}
-                className="w-full object-cover rounded mb-2"
-            />
-
-            <h3 className="font-semibold text-lg">{strMeal}</h3>
-            <p>Category: {strCategory}</p>
-            <p>Area: {strArea}</p>
-            <div className="flex gap-2 mt-2">
-                <Link
-                    href={`/recipe/${idMeal}`}
-                    className="px-3 py-1 border rounded bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-                >
-                    Details
-                </Link>
-
-
-                <button
-                    onClick={() => {
-                        toggleSelectedRecipe(recipe);
-                    }}
-                    className="px-3 py-1 cursor-pointer border rounded bg-orange-500 text-white hover:bg-orange-600 transition-colors"
-                >
-                    {isSelected ? 'Remove from Favorites' : 'Add to Favorites'}
-                </button>
+        <div className="relative bg-white rounded-lg overflow-hidden shadow hover:shadow-xl transition-shadow">
+            <div className="relative h-80">
+                <Image
+                    src={strMealThumb}
+                    alt={strMeal}
+                    fill
+                    className="object-cover"
+                />
+            </div>
+            <div className="p-4">
+                <h3 className="text-xl font-semibold mb-2">{strMeal}</h3>
+                <p className="text-gray-600 text-sm mb-1">
+                    <strong>Category:</strong> {strCategory}
+                </p>
+                <p className="text-gray-600 text-sm mb-3">
+                    <strong>Area:</strong> {strArea}
+                </p>
+                <div className="flex justify-between items-center">
+                    <DetailsLink href={`/recipe/${idMeal}`} name={"Details"} />
+                    <FavoriteButton
+                        isSelected={isSelected}
+                        onToggle={() => toggleSelectedRecipe(recipe)}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { Recipe } from '@/types';
 import { RecipeCard } from './RecipeCard';
 
@@ -13,7 +11,7 @@ export const RecipeList: React.FC<RecipeListProps> = ({ recipes }) => {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {recipes.map((recipe) => (
                 <RecipeCard key={recipe.idMeal} recipe={recipe} />
             ))}
