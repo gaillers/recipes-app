@@ -26,7 +26,7 @@ export default function RecipeDetailsPage() {
     return (
         <main className="min-h-screen bg-gray-100 text-gray-900">
             <section className="min-h-screen bg-gray-100 text-gray-900">
-                <div className="container mx-auto p-8 pb-20">
+                <div className="container mx-auto px-4 sm:px-8 py-8 pb-20">
                     <div className="w-full">
                         <h1 className="text-3xl font-bold mb-4">{recipe.strMeal}</h1>
 

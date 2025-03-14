@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <main className="main">
       <section className="min-h-screen bg-gray-100 text-gray-900">
-        <div className="container mx-auto p-8 pb-20">
+        <div className="container mx-auto px-4 sm:px-8 py-8 pb-20">
           <h1 className="text-4xl font-markRegular text-center mb-10">
             Modern Recipes
           </h1>
@@ -65,7 +65,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-xl p-8">
+          <div className="bg-white rounded-lg shadow-xl p-4 sm:p-8">
             {isLoading && (
               <Spinner />
             )}

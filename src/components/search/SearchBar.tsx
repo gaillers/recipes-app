@@ -26,7 +26,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ search, onSearchChange }) 
                     placeholder="Search recipes..."
                     value={search}
                     onChange={(e) => onSearchChange(e.target.value)}
-                    className="block w-full p-2.5 pl-11 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full p-2.5 pr-4 pl-11 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>
         </div>

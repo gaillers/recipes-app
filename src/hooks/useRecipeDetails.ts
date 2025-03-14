@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { RecipeDetailsProps, Ingredient } from '@/types';
+import { RecipeDetailsProps, Ingredient, Recipe } from '@/types';
 import { fetchRecipeDetails } from '@/services/api';
 
 export const useRecipeDetails = (id: string | undefined) => {
@@ -9,16 +9,19 @@ export const useRecipeDetails = (id: string | undefined) => {
       const data = await fetchRecipeDetails(id!);
       if (!data) return null;
 
-      const ingredients: Ingredient[] = [];
-      for (let i = 1; i <= 20; i++) {
-        const ingredient = data[`strIngredient${i}`];
-        const measure = data[`strMeasure${i}`];
-        if (!ingredient) break;
-        ingredients.push({
-          name: ingredient,
-          measure: measure || '',
+      const ingredients: Ingredient[] = Array.from({ length: 20 }, (_, i) => i + 1)
+        .flatMap((i) => {
+          const ing = data[`strIngredient${i}` as keyof Recipe];
+
+          if (!ing || ing.toString().trim() === "") return [];
+
+          return [
+            {
+              name: ing.toString().trim(),
+              measure: (data[`strMeasure${i}` as keyof Recipe] || "").toString().trim(),
+            },
+          ];
         });
-      }
 
       return {
         ...data,
