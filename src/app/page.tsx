@@ -9,6 +9,8 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { CategoryFilterRecipe } from "@/components/filter/CategoryFilter";
 import { RecipeList } from "@/components/recipe/RecipeList";
 import { Pagination } from "@/components/pagination/Pagination";
+import { Spinner } from "@/components/ui/spinner/Spinner";
+import { ErrorMessage } from "@/components/ui/status/ErrorMessage";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -65,14 +67,10 @@ export default function Home() {
 
           <div className="bg-white rounded-lg shadow-xl p-8">
             {isLoading && (
-              <div className="flex justify-center items-center py-8">
-                <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-              </div>
+              <Spinner />
             )}
 
-            {error && (
-              <div className="text-center py-8 text-xl">Error loading recipes</div>
-            )}
+            {error && <ErrorMessage />}
 
             {paginatedRecipes && <RecipeList recipes={paginatedRecipes} />}
           </div>

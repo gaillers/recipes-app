@@ -7,30 +7,19 @@ import { useRecipeDetails } from "@/hooks";
 import { getIngredients } from "@/utils";
 
 import { RecipeIngredients } from "@/components/recipe/RecipeIngredients";
+import { StatusMessage } from "@/components/ui/status/StatusMessage";
+import { Spinner } from "@/components/ui/spinner/Spinner";
 
 export default function RecipeDetailsPage() {
     const params = useParams();
     const id = params.id as string;
     const { data: recipe, isLoading, error } = useRecipeDetails(id);
 
-    if (isLoading)
-        return (
-            <div className="min-h-screen flex items-center justify-center text-gray-700">
-                Loading recipe details...
-            </div>
-        );
-    if (error)
-        return (
-            <div className="min-h-screen flex items-center justify-center text-gray-700">
-                Error loading recipe details
-            </div>
-        );
-    if (!recipe)
-        return (
-            <div className="min-h-screen flex items-center justify-center text-gray-700">
-                No recipe found
-            </div>
-        );
+    if (isLoading) return <div className="min-h-screen flex justify-center"><Spinner/></div>;
+
+    if (error) return <StatusMessage message="Error loading recipe details" />;
+
+    if (!recipe) return <StatusMessage message="No recipe found" />;
 
     const ingredients = getIngredients({ ...recipe, idMeal: id });
 
