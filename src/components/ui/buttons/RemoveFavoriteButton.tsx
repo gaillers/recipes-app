@@ -11,14 +11,14 @@ export const RemoveFavoriteButton: React.FC<RemoveFavoriteButtonProps> = ({
                 e.stopPropagation();
                 onRemove();
             }}
-            className="absolute right-8 top-8 p-2 bg-white radius rounded transition-colors cursor-pointer"
+            className="absolute right-8 top-8 p-2 bg-white radius rounded transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
             aria-label="Remove from favorites"
         >
             <svg
-                className="w-6 h-6"
+                className="w-5 h-5"
                 viewBox="0 0 512 512"
-                fill="red"
-                stroke="red"
+                fill="#ff4e4e"
+                stroke="#ff4e4e"
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"

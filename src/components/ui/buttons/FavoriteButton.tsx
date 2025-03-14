@@ -13,7 +13,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
                 e.stopPropagation();
                 onToggle();
             }}
-            className="absolute right-4 top-4 p-2 bg-white radius rounded transition-colors cursor-pointer"
+            className="absolute right-4 top-4 p-2 bg-white rounded transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
             aria-label={isSelected ? "Remove from favorites" : "Add to favorites"}
         >
             <svg

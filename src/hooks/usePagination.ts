@@ -1,60 +1,47 @@
 import { useMemo } from 'react';
 import { PaginationProps, PaginationUseResult } from '@/types';
 
+const range = (start: number, end: number): number[] =>
+    new Array(end - start + 1).fill(0).map((_, idx) => idx + start);
+
 export const usePagination = ({
     totalPages,
     currentPage,
     onPageChange,
 }: PaginationProps): PaginationUseResult => {
     const displayedPages = useMemo<(number | string)[]>(() => {
-        const pages: (number | string)[] = [];
-        if (totalPages <= 10) {
-            for (let i = 1; i <= totalPages; i++) {
-                pages.push(i);
-            }
-        } else {
+        if (totalPages <= 10) return range(1, totalPages);
 
-            if (currentPage <= 7) {
-                pages.push(...Array.from({ length: 7 }, (_, i) => i + 1));
-                pages.push('...');
-                pages.push(totalPages);
-            }
+        const delta = 2;
 
-            else if (currentPage > 7 && currentPage <= totalPages - 6) {
-                pages.push(1);
-                pages.push('...');
+        let left = currentPage - delta;
+        let right = currentPage + delta;
 
-                for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-                    pages.push(i);
-                }
-                pages.push('...');
-                pages.push(totalPages);
-            }
-
-            else {
-                pages.push(1);
-                pages.push('...');
-
-                for (let i = totalPages - 6; i <= totalPages; i++) {
-                    pages.push(i);
-                }
-            }
+        if (left <= 2) {
+            left = 2;
+            right = 2 * delta + 1;
+        } else if (right >= totalPages - 1) {
+            left = totalPages - 2 * delta;
+            right = totalPages - 1;
         }
 
+        const pages: (number | string)[] = [1];
+
+        if (left > 2) pages.push('...');
+        pages.push(...range(left, right));
+        if (right < totalPages - 1) pages.push('...');
+
+        pages.push(totalPages);
         return pages;
     }, [totalPages, currentPage]);
 
 
     const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-        }
+        if (currentPage > 1) onPageChange(currentPage - 1);
     };
 
     const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-        }
+        if (currentPage < totalPages) onPageChange(currentPage + 1);
     };
 
     return {

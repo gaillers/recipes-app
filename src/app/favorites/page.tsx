@@ -18,7 +18,7 @@ export default function FavoritesPage() {
 
     return (
         <main className="min-h-screen bg-gray-100 text-gray-900">
-            <section className="container mx-auto p-8 pb-20">
+            <section className="container mx-auto px-4 sm:px-8 py-8 pb-20">
                 <h1 className="text-4xl font-markRegular text-center mb-10">
                     Selected Recipes
                 </h1>

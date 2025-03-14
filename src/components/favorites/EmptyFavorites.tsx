@@ -3,7 +3,7 @@ import Link from "next/link";
 export const EmptyFavorites: React.FC = () => {
   return (
     <section className="min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center justify-start">
-      <div className="container mx-auto p-8 pb-20">
+      <div className="container mx-auto px-4 sm:px-8 py-8 pb-20">
         <h1 className="text-4xl font-markRegular text-center mb-4">
           Favorites
         </h1>
