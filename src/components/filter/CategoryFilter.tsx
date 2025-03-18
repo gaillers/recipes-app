@@ -1,11 +1,16 @@
+import { useMemo } from 'react';
+
 import { useRecipeCategories } from '@/hooks';
+import { useQueryParams } from "@/hooks";
 import { RecipeCategory } from '@/types';
 
-export const CategoryFilterRecipe: React.FC<RecipeCategory> = ({
-  selectedCategory,
-  onCategoryChange,
-}) => {
+export const CategoryFilterRecipe: React.FC<RecipeCategory> = () => {
+  const { searchParams, setQueryParam } = useQueryParams();
   const { data: categories, isLoading, error } = useRecipeCategories();
+  
+  const selectedCategory = useMemo(() => {
+    return searchParams?.get("category") ?? "";
+  }, [searchParams]);
 
   if (isLoading)
     return (
@@ -26,7 +31,10 @@ export const CategoryFilterRecipe: React.FC<RecipeCategory> = ({
     <div className="w-full">
       <select
         value={selectedCategory}
-        onChange={(e) => onCategoryChange(e.target.value)}
+        onChange={(e) => {
+          const newCategory = e.target.value;
+          setQueryParam("category", newCategory);
+        }}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-4 pl-4"
       >
         <option value="">All Categories</option>

@@ -1,6 +1,26 @@
-import { SearchBarProps } from '@/types';
+"use client";
 
-export const SearchBar: React.FC<SearchBarProps> = ({ search, onSearchChange }) => {
+import { useState, useMemo, useEffect, useRef } from "react";
+import { SearchBarProps } from '@/types';
+import { useDebounce, useQueryParams } from "@/hooks";
+
+export const SearchBar: React.FC<SearchBarProps> = () => {
+    const { searchParams, setQueryParam } = useQueryParams();
+
+    const searchValue = useMemo(() => searchParams?.get("search") ?? "", [searchParams]);
+    const [searchInputValue, setSearchInputValue] = useState(searchValue);
+
+    const debouncedSearchValue = useDebounce(searchInputValue, 500);
+
+    const prevSearchRef = useRef(debouncedSearchValue);
+
+    useEffect(() => {
+        if (prevSearchRef.current !== debouncedSearchValue) {
+            setQueryParam("search", debouncedSearchValue);
+            prevSearchRef.current = debouncedSearchValue;
+        }
+    }, [debouncedSearchValue, setQueryParam]);
+
     return (
         <div className="w-full">
             <div className="relative">
@@ -24,8 +44,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ search, onSearchChange }) 
                     type="search"
                     id="default-search"
                     placeholder="Search recipes..."
-                    value={search}
-                    onChange={(e) => onSearchChange(e.target.value)}
+                    value={searchInputValue}
+                    onChange={(e) => setSearchInputValue(e.target.value)}
                     className="block w-full p-2.5 pr-4 pl-11 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>

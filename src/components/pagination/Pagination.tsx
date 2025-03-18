@@ -1,15 +1,26 @@
+import { useMemo } from "react";
+
 import { PaginationProps } from '@/types';
+import { useQueryParams } from "@/hooks";
 import { usePagination } from '@/hooks';
 
-export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
-    const {
-        displayedPages,
-        goToPreviousPage,
-        goToNextPage
-    } = usePagination({
+export const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => {
+    const { searchParams, setQueryParam } = useQueryParams();
+
+    const currentPage = useMemo(() => {
+        return Number(searchParams?.get("page")) || 1;
+    }, [searchParams]);
+
+    const { displayedPages, goToPreviousPage, goToNextPage } = usePagination({
         totalPages,
         currentPage,
-        onPageChange,
+        onPageChange: (page) => {
+            if (page === 1) {
+                setQueryParam("page", "");
+            } else {
+                setQueryParam("page", String(page));
+            }
+        },
     });
 
     return (
@@ -35,7 +46,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
                                 onClick={() => onPageChange(page)}
                                 className={`flex items-center justify-center px-4 h-10 leading-tight border border-gray-300 transition-colors 
                                     ${currentPage === page ? 'z-10 text-blue-600 border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700' : 'text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 cursor-pointer'
-                                }`}
+                                    }`}
                             >
                                 {page}
                             </button>
