@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { SearchBarProps } from '@/types';
 import { useQueryParams } from "@/hooks";
 
-export const SearchBar: React.FC<SearchBarProps> = ({ search }) => {
-    const { setQueryParam } = useQueryParams();
-    const [searchInputValue, setSearchInputValue] = useState(search);
+export const SearchBar: React.FC<SearchBarProps> = () => {
+    const { searchParams, setQueryParam } = useQueryParams();
+
+    const searchValue = useMemo(() => searchParams?.get("search") ?? "", [searchParams]);
+    const [searchInputValue, setSearchInputValue] = useState(searchValue);
+
+    const handleSearch = () => {
+        setQueryParam("search", searchInputValue);
+    };
 
     return (
         <div className="w-full">
@@ -36,8 +42,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ search }) => {
                     className="block w-full p-2.5 pr-4 pl-11 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 />
                 <button
-                    onClick={() => setQueryParam("search", searchInputValue)}
-                    type="submit" 
+                    onClick={handleSearch}
+                    type="submit"
                     className="absolute end-4 bottom-1.5 px-4 py-1.5 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-sm cursor-pointer"
                 >
                     Search
