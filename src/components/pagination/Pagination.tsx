@@ -13,7 +13,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
             <ul className="flex items-center -space-x-px h-10 text-base">
                 <li>
                     <button
-                        onClick={() => onPageChange(currentPage - 1)}
+                        onClick={goToPreviousPage}
                         disabled={currentPage === 1 || totalPages === 0}
                         className="flex items-center justify-center cursor-pointer px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                     >
@@ -53,7 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
 
                 <li>
                     <button
-                        onClick={() => onPageChange(currentPage + 1)}
+                        onClick={goToNextPage}
                         disabled={currentPage === totalPages || totalPages === 0}
                         className="flex items-center justify-center cursor-pointer px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                     >
