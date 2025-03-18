@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useMemo } from "react";
-
-import { useRecipes } from "@/hooks";
-import { useDebounce } from "@/hooks";
 import { useQueryParams } from "@/hooks";
+import { useDebounce } from "@/hooks";
+import { useRecipes } from "@/hooks";
+import { useFilteredRecipes } from "@/hooks";
 
 import { SearchBar } from "@/components/search/SearchBar";
 import { CategoryFilterRecipe } from "@/components/filter/CategoryFilter";
@@ -13,7 +12,7 @@ import { Pagination } from "@/components/pagination/Pagination";
 import { Spinner } from "@/components/ui/spinner/Spinner";
 import { ErrorMessage } from "@/components/ui/status/ErrorMessage";
 
-export const HeroContent: React.FC = () => {
+export const HeroHomeContent: React.FC = () => {
   const { searchParams, setQueryParam } = useQueryParams();
 
   const search = searchParams.get("search") ?? "";
@@ -23,17 +22,12 @@ export const HeroContent: React.FC = () => {
   const debouncedSearch = useDebounce(search, 500);
   const { data: recipes, isLoading, error } = useRecipes(debouncedSearch);
 
-  const filteredRecipes = useMemo(() => {
-    return selectedCategory
-      ? recipes?.filter((recipe) => recipe.strCategory === selectedCategory)
-      : recipes;
-  }, [selectedCategory, recipes])
-
-  const recipesPerPage = 2;
-  const totalRecipes = filteredRecipes?.length || 0;
-  const totalPages = Math.ceil(totalRecipes / recipesPerPage);
-  const startIndex = (currentPage - 1) * recipesPerPage;
-  const paginatedRecipes = filteredRecipes?.slice(startIndex, startIndex + recipesPerPage);
+  const { paginatedRecipes, totalPages } = useFilteredRecipes({
+    recipes,
+    selectedCategory,
+    currentPage,
+    recipesPerPage: 2,
+  });
 
   return (
     <main className="main">
@@ -58,13 +52,15 @@ export const HeroContent: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow-xl p-4 sm:p-8">
-            {isLoading && (
-              <Spinner />
-            )}
+            {isLoading && <Spinner />}
 
             {error && <ErrorMessage />}
 
-            {paginatedRecipes && <RecipeList recipes={paginatedRecipes} />}
+            {paginatedRecipes &&
+              <RecipeList
+                recipes={paginatedRecipes}
+              />
+            }
           </div>
 
           {totalPages > 1 && (

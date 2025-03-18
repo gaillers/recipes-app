@@ -7,7 +7,7 @@ interface RecipeListProps {
 
 export const RecipeList: React.FC<RecipeListProps> = ({ recipes }) => {
     if (!recipes || recipes.length === 0) {
-        return <div>No recipes found</div>;
+        return <div className="invisible">No recipes found</div>;
     }
 
     return (
