@@ -30,7 +30,6 @@ export const HeroHomeContent: React.FC = () => {
   });
 
   return (
-    <main className="main">
       <section className="min-h-screen bg-gray-100 text-gray-900">
         <div className="container mx-auto px-4 sm:px-8 py-8 pb-20">
           <h1 className="text-4xl font-markRegular text-center mb-10">
@@ -76,6 +75,5 @@ export const HeroHomeContent: React.FC = () => {
           )}
         </div>
       </section>
-    </main>
   );
 }
