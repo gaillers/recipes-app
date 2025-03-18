@@ -6,22 +6,25 @@ export const useRecipeDetails = (id: string | undefined) => {
   return useQuery<RecipeDetailsProps['recipe'] | null, Error>({
     queryKey: ['recipeDetails', id],
     queryFn: async () => {
-      const data = await fetchRecipeDetails(id!);
+      if (!id) return null;
+
+      const data = await fetchRecipeDetails(id);
       if (!data) return null;
 
-      const ingredients: Ingredient[] = Array.from({ length: 20 }, (_, i) => i + 1)
-        .flatMap((i) => {
-          const ing = data[`strIngredient${i}` as keyof Recipe];
+      const ingredients: Ingredient[] = Object.keys(data)
+        .filter((key) => key.startsWith("strIngredient"))
+        .map((key) => {
+          const ingredient = String(data[key as keyof Recipe]).trim();
 
-          if (!ing || ing.toString().trim() === "") return [];
+          if (!ingredient) return null;
 
-          return [
-            {
-              name: ing.toString().trim(),
-              measure: (data[`strMeasure${i}` as keyof Recipe] || "").toString().trim(),
-            },
-          ];
-        });
+          const index = key.replace("strIngredient", "");
+          const measureKey = `strMeasure${index}`;
+          const measure = String(data[measureKey as keyof Recipe] || "").trim();
+          
+          return { name: ingredient, measure };
+        })
+        .filter((item): item is Ingredient => item !== null);
 
       return {
         ...data,
