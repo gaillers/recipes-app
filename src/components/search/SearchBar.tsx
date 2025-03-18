@@ -1,6 +1,13 @@
-import { SearchBarProps } from '@/types';
+"use client";
 
-export const SearchBar: React.FC<SearchBarProps> = ({ search, onSearchChange }) => {
+import { useState } from "react";
+import { SearchBarProps } from '@/types';
+import { useQueryParams } from "@/hooks";
+
+export const SearchBar: React.FC<SearchBarProps> = ({ search }) => {
+    const { setQueryParam } = useQueryParams();
+    const [searchInputValue, setSearchInputValue] = useState(search);
+
     return (
         <div className="w-full">
             <div className="relative">
@@ -24,10 +31,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({ search, onSearchChange }) 
                     type="search"
                     id="default-search"
                     placeholder="Search recipes..."
-                    value={search}
-                    onChange={(e) => onSearchChange(e.target.value)}
+                    value={searchInputValue}
+                    onChange={(e) => setSearchInputValue(e.target.value)}
                     className="block w-full p-2.5 pr-4 pl-11 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 />
+                <button
+                    onClick={() => setQueryParam("search", searchInputValue)}
+                    type="submit" 
+                    className="absolute end-4 bottom-1.5 px-4 py-1.5 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-sm cursor-pointer"
+                >
+                    Search
+                </button>
             </div>
         </div>
     );

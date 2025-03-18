@@ -2,11 +2,7 @@ import { PaginationProps } from '@/types';
 import { usePagination } from '@/hooks';
 
 export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
-    const {
-        displayedPages,
-        goToPreviousPage,
-        goToNextPage
-    } = usePagination({
+    const { displayedPages, goToPreviousPage, goToNextPage } = usePagination({
         totalPages,
         currentPage,
         onPageChange,
@@ -17,7 +13,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
             <ul className="flex items-center -space-x-px h-10 text-base">
                 <li>
                     <button
-                        onClick={goToPreviousPage}
+                        onClick={() => onPageChange(currentPage - 1)}
                         disabled={currentPage === 1 || totalPages === 0}
                         className="flex items-center justify-center cursor-pointer px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                     >
@@ -35,7 +31,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
                                 onClick={() => onPageChange(page)}
                                 className={`flex items-center justify-center px-4 h-10 leading-tight border border-gray-300 transition-colors 
                                     ${currentPage === page ? 'z-10 text-blue-600 border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700' : 'text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 cursor-pointer'
-                                }`}
+                                    }`}
                             >
                                 {page}
                             </button>
@@ -57,7 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage,
 
                 <li>
                     <button
-                        onClick={goToNextPage}
+                        onClick={() => onPageChange(currentPage + 1)}
                         disabled={currentPage === totalPages || totalPages === 0}
                         className="flex items-center justify-center cursor-pointer px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                     >

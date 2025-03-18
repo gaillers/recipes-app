@@ -5,3 +5,4 @@ export * from './useRecipeDetails';
 export * from './useRecipesList';
 export * from './useSelectedRecipes';
 export * from './usePagination';
+export * from './useQueryParams';

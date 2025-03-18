@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 
 import { useRecipes } from "@/hooks";
 import { useDebounce } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 
 import { SearchBar } from "@/components/search/SearchBar";
 import { CategoryFilterRecipe } from "@/components/filter/CategoryFilter";
@@ -13,27 +14,26 @@ import { Spinner } from "@/components/ui/spinner/Spinner";
 import { ErrorMessage } from "@/components/ui/status/ErrorMessage";
 
 export default function Home() {
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const { searchParams, setQueryParam } = useQueryParams();
+
+  const search = searchParams.get("search") ?? "";
+  const selectedCategory = searchParams.get("category") ?? "";
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const debouncedSearch = useDebounce(search, 500);
-
   const { data: recipes, isLoading, error } = useRecipes(debouncedSearch);
 
-  const filteredRecipes = selectedCategory
-    ? recipes?.filter((recipe) => recipe.strCategory === selectedCategory)
-    : recipes;
+  const filteredRecipes = useMemo(() => {
+    return selectedCategory
+      ? recipes?.filter((recipe) => recipe.strCategory === selectedCategory)
+      : recipes;
+  }, [selectedCategory, recipes])
 
   const recipesPerPage = 2;
   const totalRecipes = filteredRecipes?.length || 0;
   const totalPages = Math.ceil(totalRecipes / recipesPerPage);
   const startIndex = (currentPage - 1) * recipesPerPage;
   const paginatedRecipes = filteredRecipes?.slice(startIndex, startIndex + recipesPerPage);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   return (
     <main className="main">
@@ -47,20 +47,12 @@ export default function Home() {
             <div className="w-full md:w-1/2">
               <SearchBar
                 search={search}
-                onSearchChange={(value) => {
-                  setSearch(value);
-                  setCurrentPage(1);
-                }}
+                onSearchChange={(value) => setQueryParam("search", value)}
               />
             </div>
             <div className="w-full md:w-1/2 flex justify-end">
               <CategoryFilterRecipe
-                selectedCategory={selectedCategory}
-                onCategoryChange={(cat) => {
-                  setSelectedCategory(cat);
-                  setCurrentPage(1);
-                }}
-                categories={[]}
+                onCategoryChange={(value) => setQueryParam("category", value)}
               />
             </div>
           </div>
@@ -80,7 +72,9 @@ export default function Home() {
               <Pagination
                 totalPages={totalPages}
                 currentPage={currentPage}
-                onPageChange={handlePageChange}
+                onPageChange={(page) =>
+                  page === 1 ? setQueryParam("page", "") : setQueryParam("page", String(page))
+                }
               />
             </div>
           )}
