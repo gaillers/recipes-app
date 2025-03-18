@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
@@ -10,18 +12,25 @@ import { RecipeIngredients } from "@/components/recipe/RecipeIngredients";
 import { StatusMessage } from "@/components/ui/status/StatusMessage";
 import { Spinner } from "@/components/ui/spinner/Spinner";
 
+
 export default function RecipeDetailsPage() {
     const params = useParams();
+
     const id = params.id as string;
     const { data: recipe, isLoading, error } = useRecipeDetails(id);
 
-    if (isLoading) return <div className="min-h-screen flex justify-center"><Spinner/></div>;
+    const ingredients = useMemo(() => {
+        if (!recipe) return [];
+        
+        return getIngredients({ ...recipe, idMeal: id });
+    }, [recipe, id]);
+
+    if (isLoading) return <div className="min-h-screen flex justify-center"><Spinner /></div>;
 
     if (error) return <StatusMessage message="Error loading recipe details" />;
 
     if (!recipe) return <StatusMessage message="No recipe found" />;
 
-    const ingredients = getIngredients({ ...recipe, idMeal: id });
 
     return (
         <main className="min-h-screen bg-gray-100 text-gray-900">

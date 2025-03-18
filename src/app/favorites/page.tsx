@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { useSelectedRecipes } from "@/hooks";
 import { getAggregatedIngredients } from "@/utils";
 
@@ -14,7 +16,10 @@ export default function FavoritesPage() {
         return <EmptyFavorites />;
     }
 
-    const aggregatedIngredients = getAggregatedIngredients(selectedRecipes);
+    const aggregatedIngredients = useMemo(() =>
+        getAggregatedIngredients(selectedRecipes),
+        [selectedRecipes]
+    );
 
     return (
         <main className="min-h-screen bg-gray-100 text-gray-900">
@@ -22,6 +27,7 @@ export default function FavoritesPage() {
                 <h1 className="text-4xl font-markRegular text-center mb-10">
                     Selected Recipes
                 </h1>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     {selectedRecipes.map((recipe) => (
                         <FavoriteRecipeCard
@@ -31,6 +37,7 @@ export default function FavoritesPage() {
                         />
                     ))}
                 </div>
+
                 <AggregatedIngredients ingredients={aggregatedIngredients} />
             </section>
         </main>
