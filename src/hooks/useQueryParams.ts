@@ -12,19 +12,19 @@ export const useQueryParams = () => {
     }, [searchParams]);
 
     const setQueryParam = (key: string, value: string) => {
-        if (!params) return;
+        const newParams = new URLSearchParams(params.toString());
 
         if (value) {
-            params.set(key, value);
+            newParams.set(key, value);
         } else {
-            params.delete(key);
+            newParams.delete(key);
         }
 
         if (key === "category" || key === "search") {
-            params.delete("page");
+            newParams.delete("page");
         }
 
-        router.replace(`?${params.toString()}`, { scroll: false });
+        router.replace(`?${newParams.toString()}`, { scroll: false });
     };
 
     return { searchParams: params, setQueryParam };
