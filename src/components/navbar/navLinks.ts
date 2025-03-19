@@ -10,9 +10,4 @@ export const navLinks: NavLink[] = [
         title: "Home",
         url: "/",
     },
-    {
-        id: 2,
-        title: "Favorites",
-        url: "/favorites",
-    },
 ];
