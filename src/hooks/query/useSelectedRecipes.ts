@@ -32,10 +32,13 @@ export const useSelectedRecipes = () => {
     }
   };
 
+  const selectedRecipesCount = selectedRecipes.length;
+
   return {
     selectedRecipes,
     addSelectedRecipe,
     removeSelectedRecipe,
     toggleSelectedRecipe,
+    selectedRecipesCount,
   };
 };

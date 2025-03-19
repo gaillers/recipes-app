@@ -4,6 +4,7 @@
 import Link from "next/link";
 
 import { navLinks } from "./navLinks";
+import { CounterFavorites } from "@/components/favorites/CounterFavorites";
 
 export default function NavBar() {
     return (
@@ -28,6 +29,7 @@ export default function NavBar() {
                     </ul>
                 </>
 
+                <CounterFavorites />
             </div>
         </nav>
     );
